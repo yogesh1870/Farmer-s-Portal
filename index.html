@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Agricultural Website</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Agricultural Website</h1>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="openTab('seeds')">Order Seeds</div>
+        <div class="tab" onclick="openTab('fertilizer')">Order Fertilizer</div>
+        <div class="tab" onclick="openTab('policies')">Farmer Policies</div>
+    </div>
+
+    <div id="seeds" class="content active">
+        <h2>Order Seeds</h2>
+        <div class="item">
+            <p>Wheat Seeds - $10</p>
+            <button onclick="addToCart('Wheat Seeds', 10)">Add to Cart</button>
+        </div>
+        <div class="item">
+            <p>Rice Seeds - $12</p>
+            <button onclick="addToCart('Rice Seeds', 12)">Add to Cart</button>
+        </div>
+        <div class="item">
+            <p>Corn Seeds - $8</p>
+            <button onclick="addToCart('Corn Seeds', 8)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div id="fertilizer" class="content">
+        <h2>Order Fertilizer</h2>
+        <div class="item">
+            <p>Organic Fertilizer - $20</p>
+            <button onclick="addToCart('Organic Fertilizer', 20)">Add to Cart</button>
+        </div>
+        <div class="item">
+            <p>Compost Fertilizer - $15</p>
+            <button onclick="addToCart('Compost Fertilizer', 15)">Add to Cart</button>
+        </div>
+        <div class="item">
+            <p>Liquid Fertilizer - $25</p>
+            <button onclick="addToCart('Liquid Fertilizer', 25)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div id="policies" class="content">
+        <h2>Farmer Policies</h2>
+	?
+    </div>
+
+    <div class="cart">
+        <h2>Cart</h2>
+        <ul id="cart-items">
+            <li>No items in cart</li>
+        </ul>
+        <div class="cart-summary">
+            Total Quantity: <span id="total-quantity">0</span><br>
+            Total Amount: $<span id="total-amount">0</span>
+        </div>
+        <button onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <script>
+        let totalQuantity = 0;
+        let totalAmount = 0;
+
+        function openTab(tabId) {
+            const contents = document.querySelectorAll('.content');
+            const tabs = document.querySelectorAll('.tab');
+
+            contents.forEach(content => content.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab[onclick="openTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function addToCart(item, price) {
+            const cartItems = document.getElementById('cart-items');
+            const noItems = document.querySelector('#cart-items li');
+
+            if (noItems && noItems.textContent === 'No items in cart') {
+                cartItems.innerHTML = '';
+            }
+
+            const listItem = document.createElement('li');
+            listItem.textContent = `${item} - $${price}`;
+            cartItems.appendChild(listItem);
+
+            totalQuantity++;
+            totalAmount += price;
+
+            document.getElementById('total-quantity').textContent = totalQuantity;
+            document.getElementById('total-amount').textContent = totalAmount;
+        }
+
+        function placeOrder() {
+            if (totalQuantity === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const address = prompt('Enter your delivery address:');
+            if (address) {
+                alert(`Order placed successfully!\nTotal Items: ${totalQuantity}\nTotal Amount: $${totalAmount}\nDelivery Address: ${address}`);
+
+                
+                document.getElementById('cart-items').innerHTML = '<li>No items in cart</li>';
+                totalQuantity = 0;
+                totalAmount = 0;
+                document.getElementById('total-quantity').textContent = totalQuantity;
+                document.getElementById('total-amount').textContent = totalAmount;
+            }
+        }
+    </script>
+</body>
+</html>
