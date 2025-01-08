@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+    <title>Agricultural Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="header">
+        <h1>Agricultural Website</h1>
+          <button title="Admin-Login" onclick="adminLogin()">
+        <i class="fa-duotone fa-solid fa-user-tie" title="Admin-Login"></i>
+    </button>
+
+    <script>
+        function adminLogin() {
+            // Prompt user for username and password
+            var username = prompt("Enter username:");
+            var password = prompt("Enter password:");
+
+            // Check if credentials are correct
+            if (username === "admin" && password === "Samsung753") {
+                // If correct, redirect to admin page
+                window.location.href = "{{ url_for('admin') }}";  // Flask redirect to admin.html
+            } else {
+                alert("Invalid credentials! Try again.");
+            }
+        }
+    </script>
+
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="openTab('seeds')">Price List</div>
+        <div class="tab" onclick="openTab('fertilizer')">Order Fertilizer</div>
+        <div class="tab" onclick="openTab('policies')">Policies</div>
+	<div class="tab" onclick="openTab('addtocart')">Cart Details</div>
+    </div>
+
+    <div id="seeds" class="content active">
+
+        <h1>TamilNadu Agriculture Market Prices [ TODAY : {{date}} ]</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price (INR per kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item, price in prices.items() %}
+                <tr>
+                    <td>{{ item }}</td>
+                    <td>{{ price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+
+
+
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Farmer Portal. All rights reserved.</p>
+    </footer>
+
+
+    </div>
+<p style="background-image: url('fertilizer.jpg');">
+    <div id="fertilizer" class="content">
+    <!-- Search bar -->
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search for a fertilizer by plant type..." onkeyup="searchFertilizers()">
+
+    <div class="container" id="fertilizerList">
+        <!-- Fertilizer 1 -->
+        <div class="fertilizer-card" data-plants="flowers, vegetables, houseplants">
+            <h2>1. Miracle-Gro Water Soluble All Purpose Plant Food - ₹1,200 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Flowers, vegetables, houseplants</li>
+                <li><strong>Nutrients:</strong> NPK 24-8-16</li>
+                <li><strong>Description:</strong> Balanced fertilizer for general use in a wide variety of plants.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Miracle-Gro Water Soluble All Purpose Plant Food ', '₹1,200 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 2 -->
+        <div class="fertilizer-card" data-plants="rice, wheat, vegetables">
+            <h2>2. Urea Fertilizer (46-0-0) - ₹850 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Rice, wheat, vegetables</li>
+                <li><strong>Nutrients:</strong> NPK 46-0-0</li>
+                <li><strong>Description:</strong> High-nitrogen fertilizer ideal for cereal crops and other vegetables.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Urea Fertilizer (46-0-0) ', '₹850 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 3 -->
+        <div class="fertilizer-card" data-plants="wheat, barley, maize">
+            <h2>3. Ammonium Nitrate Fertilizer - ₹1,100 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Wheat, barley, maize</li>
+                <li><strong>Nutrients:</strong> NPK 33-0-0</li>
+                <li><strong>Description:</strong> Quick-release fertilizer providing essential nitrogen for crops.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Ammonium Nitrate Fertilizer ', '₹1100 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 4 -->
+        <div class="fertilizer-card" data-plants="rice, corn, soybean">
+            <h2>4. Triple Super Phosphate (TSP) - ₹1,500 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Rice, corn, soybean</li>
+                <li><strong>Nutrients:</strong> NPK 0-46-0</li>
+                <li><strong>Description:</strong> Phosphorus-rich fertilizer that enhances root and flower growth.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Triple Super Phosphate (TSP)', '₹1500 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 5 -->
+        <div class="fertilizer-card" data-plants="wheat, oats, vegetables">
+            <h2>5. Potassium Chloride (Muriate of Potash) - ₹1,700 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Wheat, oats, vegetables</li>
+                <li><strong>Nutrients:</strong> NPK 0-0-60</li>
+                <li><strong>Description:</strong> A source of potassium that supports stress resistance and disease prevention.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Potassium Chloride', '₹1700 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 6 -->
+        <div class="fertilizer-card" data-plants="wheat, barley">
+            <h2>6. DAP Fertilizer (Diammonium Phosphate) - ₹1,200 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Wheat, barley</li>
+                <li><strong>Nutrients:</strong> NPK 18-46-0</li>
+                <li><strong>Description:</strong> High in phosphorus, promotes strong root development in cereal crops.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('DAP Fertilizer ', '₹1200 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 7 -->
+        <div class="fertilizer-card" data-plants="rice, corn">
+            <h2>7. Mono Ammonium Phosphate (MAP) - ₹1,400 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Rice, corn</li>
+                <li><strong>Nutrients:</strong> NPK 11-52-0</li>
+                <li><strong>Description:</strong> Provides essential phosphorus and nitrogen for high-yielding crops.</li>
+            </ul>
+            <button class="add-to-cart" onclick="Mono Ammonium Phosphate', '₹1400 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 8 -->
+        <div class="fertilizer-card" data-plants="rice, wheat">
+            <h2>8. Superphosphate - ₹1,000 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Rice, wheat</li>
+                <li><strong>Nutrients:</strong> NPK 0-20-0</li>
+                <li><strong>Description:</strong> Improves root development and yields for cereal crops.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Superphosphate', '₹1000 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 9 -->
+        <div class="fertilizer-card" data-plants="corn, beans, rice">
+            <h2>9. Calcium Nitrate - ₹1,500 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Corn, beans, rice</li>
+                <li><strong>Nutrients:</strong> NPK 15-0-0</li>
+                <li><strong>Description:</strong> Helps prevent calcium deficiencies and promotes healthy plant growth.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Calcium Nitrate', '₹1500 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 10 -->
+        <div class="fertilizer-card" data-plants="wheat, oats, barley">
+            <h2>10. Potassium Sulfate - ₹1,450 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Wheat, oats, barley</li>
+                <li><strong>Nutrients:</strong> NPK 0-0-50</li>
+                <li><strong>Description:</strong> A source of potassium and sulfur to improve plant stress tolerance and yields.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Potassium Sulphate', '₹1450 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 11 -->
+        <div class="fertilizer-card" data-plants="tomatoes, cucumbers, peppers">
+            <h2>11. Tomato & Vegetable Fertilizer - ₹1,400 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Tomatoes, cucumbers, peppers</li>
+                <li><strong>Nutrients:</strong> NPK 10-15-10</li>
+                <li><strong>Description:</strong> Specially formulated for vegetable crops, with a balanced mix of nutrients.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Tomato & Vegetable Fertilizer', '₹1400 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 12 -->
+        <div class="fertilizer-card" data-plants="fruit trees, citrus">
+            <h2>12. Citrus Tree Fertilizer - ₹2,000 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Fruit trees, citrus</li>
+                <li><strong>Nutrients:</strong> NPK 10-5-20</li>
+                <li><strong>Description:</strong> Ideal for promoting fruit production in citrus and other fruit trees.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Citrus Tree Fertilizer', '₹2000 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 13 -->
+        <div class="fertilizer-card" data-plants="berries, grapes">
+            <h2>13. Berry and Grape Fertilizer - ₹1,100 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Berries, grapes</li>
+                <li><strong>Nutrients:</strong> NPK 5-10-10</li>
+                <li><strong>Description:</strong> Boosts fruit production and overall health for berry and grape vines.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Berry and Grape Fertilizer', '₹1100 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 14 -->
+        <div class="fertilizer-card" data-plants="lawns, shrubs">
+            <h2>14. Lawn Fertilizer - ₹1,800 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Lawns, shrubs</li>
+                <li><strong>Nutrients:</strong> NPK 20-10-10</li>
+                <li><strong>Description:</strong> Promotes lush, green lawns and healthy shrubs.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Lawn Fertilizer', '₹1800 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 15 -->
+        <div class="fertilizer-card" data-plants="houseplants, flowers">
+            <h2>15. Indoor Plant Fertilizer - ₹1,500 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Houseplants, flowers</li>
+                <li><strong>Nutrients:</strong> NPK 12-12-12</li>
+                <li><strong>Description:</strong> Perfect for maintaining healthy indoor plants with balanced nutrition.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Indoor Plant Fertilizer', '₹1500 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 16 -->
+        <div class="fertilizer-card" data-plants="grapes, tomatoes">
+            <h2>16. Organic Vine Fertilizer - ₹1,800 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Grapes, tomatoes</li>
+                <li><strong>Nutrients:</strong> NPK 8-8-8</li>
+                <li><strong>Description:</strong> Organic fertilizer for healthy vine crops, with equal proportions of NPK.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Organic Vine Fertilizer', '₹1800 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 17 -->
+        <div class="fertilizer-card" data-plants="potatoes, carrots">
+            <h2>17. Root Vegetable Fertilizer - ₹1,300 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Potatoes, carrots</li>
+                <li><strong>Nutrients:</strong> NPK 10-20-10</li>
+                <li><strong>Description:</strong> Supports strong root development and healthy vegetable growth.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Root Vegetable Fertilizer ', '₹1300 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 18 -->
+        <div class="fertilizer-card" data-plants="chili peppers, eggplant">
+            <h2>18. Hot Pepper Fertilizer - ₹1,200 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Chili peppers, eggplant</li>
+                <li><strong>Nutrients:</strong> NPK 12-12-20</li>
+                <li><strong>Description:</strong> Promotes strong growth and fruiting for hot peppers and eggplants.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Hot Pepper Fertilizer ', '₹1200 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 19 -->
+        <div class="fertilizer-card" data-plants="flowers, shrubs">
+            <h2>19. Flower & Shrub Fertilizer - ₹1,400 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Flowers, shrubs</li>
+                <li><strong>Nutrients:</strong> NPK 15-30-15</li>
+                <li><strong>Description:</strong> Ideal for flowering plants and shrubs, providing optimal phosphorus levels.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Flower & Shrub Fertilizer', '₹1400 per Kg')">Add to Cart</button>
+        </div>
+
+        <!-- Fertilizer 20 -->
+        <div class="fertilizer-card" data-plants="grapes, apples">
+            <h2>20. Fruit Tree Fertilizer - ₹1,900 per Kg</h2>
+            <ul>
+                <li><strong>For:</strong> Grapes, apples</li>
+                <li><strong>Nutrients:</strong> NPK 10-10-10</li>
+                <li><strong>Description:</strong> Boosts fruit production and supports overall health for fruit trees.</li>
+            </ul>
+            <button class="add-to-cart" onclick="addToCart('Fruit Tree Fertilizer', '₹1900 per Kg')">Add to Cart</button>
+        </div>
+    </div>
+        <footer>
+    <p>Fertilizers for Different Plants | Your Gardening Guide</p>
+</footer>
+</div>
+
+
+</div>
+</p>
+
+
+<script>
+    function searchFertilizers() {
+        var input, filter, cards, card, i, plants, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toLowerCase();
+        cards = document.getElementById("fertilizerList").getElementsByClassName('fertilizer-card');
+
+        for (i = 0; i < cards.length; i++) {
+            card = cards[i];
+            plants = card.getAttribute("data-plants");
+            txtValue = plants.toLowerCase();
+            if (txtValue.indexOf(filter) > -1) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        }
+    }
+</script>
+    </div>
+
+    <div id="policies" class="content">
+        
+	  <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#government-policies">Government Policies</a></li>
+            <li><a href="#schemes">Schemes</a></li>
+            <li><a href="#banks">Loans</a></li>
+        </ul>
+    </nav>
+
+    <!-- Government Policies Section -->
+    <section id="government-policies">
+        <h2>Government Policies for Farmers</h2>
+        <p>Discover the policies implemented by the government to support and empower farmers.</p>
+        <p><strong>Policy 1:</strong> Agricultural Subsidy Scheme - A scheme providing subsidies on farming equipment and seeds to boost agricultural productivity.</p>
+        <p><strong>Policy 2:</strong> Crop Insurance Scheme - Government-backed crop insurance schemes to help farmers recover from unexpected crop failures due to natural disasters.</p>
+        <p><strong>Policy 3:</strong> Pradhan Mantri Fasal Bima Yojana (PMFBY) - A crop insurance scheme to reduce the financial burden on farmers from natural calamities, pests, and diseases.</p>
+        <p><strong>Policy 4:</strong> Soil Health Management - A policy promoting soil testing, educating farmers on sustainable farming practices, and ensuring better crop yield.</p>
+        <p><strong>Policy 5:</strong> National Mission on Sustainable Agriculture - Focuses on promoting sustainable farming practices and conserving natural resources for long-term productivity.</p>
+        <p><strong>Policy 6:</strong> National Agricultural Policy - Aimed at achieving higher growth and sustainability in agriculture while improving farmers' livelihoods.</p>
+        <p><strong>Policy 7:</strong> Rashtriya Krishi Vikas Yojana (RKVY) - A scheme to promote growth in the agricultural sector by providing financial support to various agricultural development projects.</p>
+        <p><strong>Policy 8:</strong> Atma Nirbhar Bharat Abhiyan - A policy aimed at promoting self-reliance in agriculture and rural economy by encouraging local agricultural products and innovations.</p>
+        <p><strong>Policy 9:</strong> PM-GKAY (Pradhan Mantri Garib Kalyan Anna Yojana) - A policy to provide free food grains to farmers and their families during the COVID-19 pandemic.</p>
+        <p><strong>Policy 10:</strong> Pradhan Mantri Krishi Sinchayee Yojana (PMKSY) - Aims to provide irrigation facilities to farmers and ensure the optimal use of water resources.</p>
+    </section>
+
+    <!-- Schemes Section -->
+    <section id="schemes">
+        <h2>Farmer Schemes</h2>
+        <p>Government schemes that provide financial and technical support for farmers across India.</p>
+        <p><strong>Scheme 1:</strong> PM-Kisan Scheme - Direct income support of ₹6,000 per year to eligible farmers.</p>
+        <p><strong>Scheme 2:</strong> Pradhan Mantri Krishi Sinchayee Yojana (PMKSY) - Aims to provide irrigation facilities to farmers and ensure the optimal use of water resources.</p>
+        <p><strong>Scheme 3:</strong> Kisan Credit Card (KCC) - Provides short-term credit to farmers for their agricultural needs at affordable interest rates.</p>
+        <p><strong>Scheme 4:</strong> Agricultural Market Reforms - Strengthening of agricultural markets and providing access to e-marketplaces for farmers to sell their produce directly.</p>
+        <p><strong>Scheme 5:</strong> Soil Health Management - A program to help farmers adopt sustainable practices and improve soil fertility for increased agricultural productivity.</p>
+        <p><strong>Scheme 6:</strong> National Agricultural Market (eNAM) - A scheme that links agricultural markets across India to enhance market accessibility and better price realization for farmers.</p>
+        <p><strong>Scheme 7:</strong> PM-FME (Prime Minister Formalization of Micro Food Enterprises) - Supports farmers, food processors, and rural entrepreneurs to scale up their businesses.</p>
+        <p><strong>Scheme 8:</strong> Pradhan Mantri Fasal Bima Yojana (PMFBY) - A crop insurance scheme to safeguard farmers against natural disasters and crop failures.</p>
+        <p><strong>Scheme 9:</strong> National Food Security Mission (NFSM) - A scheme to increase food production and improve farm income through the promotion of technology, seeds, and equipment.</p>
+        <p><strong>Scheme 10:</strong> Kisan Rail Yojana - A scheme aimed at transporting perishable farm produce to distant markets to reduce wastage and increase farmers’ income.</p>
+        <p><strong>Scheme 11:</strong> Rural Infrastructure Development Fund (RIDF) - Aimed at developing rural infrastructure and enhancing farmers' access to resources.</p>
+        <p><strong>Scheme 12:</strong> Sustainable Agriculture Development - Promotes sustainable practices in farming, focusing on organic farming and climate-resilient crops.</p>
+        <p><strong>Scheme 13:</strong> Digital Agriculture - Encourages the use of technology and digital tools for efficient farming practices and better crop management.</p>
+        <p><strong>Scheme 14:</strong> Organic Farming Scheme - A scheme to promote organic farming and help farmers switch to eco-friendly farming methods.</p>
+        <p><strong>Scheme 15:</strong> Agricultural Infrastructure Fund (AIF) - Provides funding for developing infrastructure such as cold storage, warehousing, and processing units to improve agricultural supply chains.</p>
+    </section>
+
+    <!-- Banks Section -->
+    <section id="banks">
+        <h2>Government Policies and Schemes for Farmers by Bank</h2>
+
+        <!-- Bank 1: State Bank of India (SBI) -->
+        <div class="bank-section">
+            <h3>State Bank of India (SBI)</h3>
+            <p><strong>Loan Scheme:</strong> SBI offers special agricultural loans with low-interest rates under government schemes like Kisan Credit Cards (KCC) and NABARD support.</p>
+            <p><strong>Policy Support:</strong> SBI supports financial assistance to farmers for crop insurance, farm mechanization, and agricultural development projects under government schemes.</p>
+            <p><strong>Additional Loan Offer:</strong> SBI provides loans under PM-Kisan Scheme and PM-FME for farmers and small food processors.</p>
+        </div>
+
+        <!-- Bank 2: Punjab National Bank (PNB) -->
+        <div class="bank-section">
+            <h3>Punjab National Bank (PNB)</h3>
+            <p><strong>Loan Scheme:</strong> PNB offers affordable loans for agricultural development and farm equipment purchases under government schemes like PM-Kisan and NABARD funding.</p>
+            <p><strong>Policy Support:</strong> The bank supports government schemes for agricultural development, crop insurance, and farm mechanization.</p>
+            <p><strong>Additional Loan Offer:</strong> PNB also provides loans for purchasing seeds, fertilizers, and irrigation systems to enhance productivity.</p>
+        </div>
+
+        <!-- Bank 3: Bank of India (BOI) -->
+        <div class="bank-section">
+            <h3>Bank of India (BOI)</h3>
+            <p><strong>Loan Scheme:</strong> BOI provides specialized loans for farmers under government-backed programs such as PM-FME and NABARD funding.</p>
+            <p><strong>Policy Support:</strong> The bank assists farmers in accessing schemes like Kisan Credit Cards and agricultural insurance policies, making farming more financially secure.</p>
+            <p><strong>Additional Loan Offer:</strong> BOI also offers long-term loans for the development of agriculture infrastructure and equipment to improve efficiency.</p>
+        </div>
+
+        <!-- Bank 4: ICICI Bank -->
+        <div class="bank-section">
+            <h3>ICICI Bank</h3>
+            <p><strong>Loan Scheme:</strong> ICICI Bank provides agriculture loan schemes like Kisan Credit Card and short-term loans to meet the farming requirements for seasonal crops.</p>
+            <p><strong>Policy Support:</strong> ICICI Bank offers loans under PMFBY to insure crops and provide financial relief to farmers.</p>
+            <p><strong>Additional Loan Offer:</strong> The bank also supports rural farmers with special financing for infrastructure development, including irrigation systems and cold storage units.</p>
+        </div>
+
+        <!-- Bank 5: HDFC Bank -->
+        <div class="bank-section">
+            <h3>HDFC Bank</h3>
+            <p><strong>Loan Scheme:</strong> HDFC offers financial assistance to farmers for crop production, purchase of agricultural machinery, and farm mechanization under the Kisan Credit Card Scheme.</p>
+            <p><strong>Policy Support:</strong> The bank offers easy access to government schemes like PM-Kisan and PMFBY, supporting farmers in times of crisis.</p>
+            <p><strong>Additional Loan Offer:</strong> HDFC Bank supports farmers with long-term loans for setting up greenhouses, irrigation systems, and renewable energy sources for sustainable farming.</p>
+        </div>
+
+    </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Farmer Portal. All rights reserved.</p>
+    </footer>
+</div>
+	<div id='addtocart' class='content'>
+
+	<center><h1>Your Cart List are...</h1></center>
+        <table id="cartTable">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Fertilizer Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Cart items will appear here -->
+        </tbody>
+    </table>
+
+
+	</div>
+     <script>
+        // Array to store cart items
+        let cart = [];
+
+        // Function to add items to the cart
+        function addToCart(fertilizerName, price) {
+            // Add the fertilizer name and price to the cart array as an object
+            cart.push({ name: fertilizerName, price: price });
+            alert('Item Added to Cart');
+
+            // Update the cart table
+            updateCartTable();
+        }
+
+        // Function to update the cart table
+        function updateCartTable() {
+            // Get the table body element
+            const tableBody = document.querySelector('#cartTable tbody');
+
+            // Clear the existing table rows
+            tableBody.innerHTML = '';
+
+            // Loop through the cart array and populate the table
+            cart.forEach((item, index) => {
+                const row = document.createElement('tr');
+
+                const cell1 = document.createElement('td');
+                cell1.textContent = index + 1; // No.
+                row.appendChild(cell1);
+
+                const cell2 = document.createElement('td');
+                cell2.textContent = item.name; // Fertilizer Name
+                row.appendChild(cell2);
+
+                const cell3 = document.createElement('td');
+                cell3.textContent = item.price; // Price
+                row.appendChild(cell3);
+
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+
+    <script>
+
+
+        function openTab(tabId) {
+            const contents = document.querySelectorAll('.content');
+            const tabs = document.querySelectorAll('.tab');
+
+            contents.forEach(content => content.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab[onclick="openTab('${tabId}')"]`).classList.add('active');
+        }
+
+
+    </script>
+</body>
+</html>
